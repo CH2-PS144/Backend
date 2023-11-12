@@ -1,8 +1,8 @@
 const { app } = require("./application/app.js");
 const logger = require("./application/logging.js");
 
-const PORT = process.env.LOCAL_APP_PORT;
+const PORT = 8080;
 
 app.listen(PORT, () => {
-  logger.info("Application rerver running...");
+  logger.info(`Application server on ${PORT} running...`);
 });

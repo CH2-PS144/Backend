@@ -11,9 +11,8 @@ datasource db {
 }
 
 model Class {
-  id        Int        @id @default(autoincrement())
-  classId   String     @unique @db.Char(36)
-  name      String     @db.VarChar(5)
+  id        String     @id @default(uuid())
+  name      String     @db.Char(5)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   Material  Material[]
@@ -22,25 +21,23 @@ model Class {
 }
 
 model Material {
-  id         Int        @id @default(autoincrement())
-  materialId String     @unique @db.Char(36)
-  name       String     @db.VarChar(70)
-  createdAt  DateTime   @default(now())
-  updatedAt  DateTime   @updatedAt
-  classId    Int
-  class      Class      @relation(fields: [classId], references: [id])
-  Question   Question[]
+  id        String     @id @default(uuid())
+  name      String     @db.VarChar(70)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  classId   String
+  class     Class      @relation(fields: [classId], references: [id])
+  Question  Question[]
 
   @@map("material")
 }
 
 model Question {
-  id         Int      @id @default(autoincrement())
-  questionId String   @unique @db.Char(36)
+  id         String   @id @default(uuid())
   questions  String   @db.LongText
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
-  materialId Int
+  materialId String
   material   Material @relation(fields: [materialId], references: [id])
   Answer     Answer[]
 
@@ -48,13 +45,13 @@ model Question {
 }
 
 model Answer {
-  id             Int      @id @default(autoincrement())
+  id             String   @id @default(uuid())
   answer         String   @unique @db.Char(36)
   questionAnswer String   @db.Char(2)
   active         Boolean  @default(false)
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
-  questionId     Int
+  questionId     String
   qestion        Question @relation(fields: [questionId], references: [id])
 
   @@map("answer")
