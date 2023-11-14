@@ -4,6 +4,7 @@ const validate = (schema, request) => {
   if (result.error) {
     throw result.error;
   } else {
+
     return result.value;
   }
 };
