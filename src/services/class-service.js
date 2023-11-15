@@ -1,5 +1,5 @@
 const validate = require("../validation/validation")
-const {createClassValidation,getClassValidationById,getAllDataClassValidation} = require("../validation/class-validation")
+const {createClassValidation,getClassValidationById,getAllDataClassValidation,updateClassValidation} = require("../validation/class-validation")
 const prisma = require("../application/database")
 const {ResponseError} = require("../error/response-errror");
 const logger = require("../application/logging")
@@ -8,18 +8,13 @@ const createDataClassService = async (request) => {
     const Class = validate(createClassValidation, request)
    console.log(Class)
     //create data class
-    const classData = await prisma.class.create({
+    return prisma.class.create({
         data: Class,
         select : {
             id: true,
             name: true
         }
     })
-    //check value empty class
-    if (!classData || classData === "") {
-        throw new ResponseError(400,"Data Class not be empty", true)
-    }
-    return classData
 }
 
 const getAllDataClassService = async (request) => {
@@ -37,6 +32,7 @@ const getAllDataClassService = async (request) => {
 const getDataClassServiceById = async (classId) => {
     //validate
     classId = validate(getClassValidationById, classId)
+
     //get data class
     const Class = await prisma.class.findUnique({
         where: {
@@ -53,4 +49,47 @@ const getDataClassServiceById = async (classId) => {
     }
     return Class
 }
-module.exports = { createDataClassService, getDataClassServiceById,getAllDataClassService}
+const updateDataClassService = async (request) => {
+    //validate
+    const Class = validate(updateClassValidation, request)
+    const checkInDataBase = await prisma.class.count({
+        where: {
+            id:Class.id
+        }
+    })
+    if (checkInDataBase !== 1 ) {
+        throw  new ResponseError(404, `class with id ${Class.id} not found`, true)
+    }
+  return prisma.class.update({
+        where: {
+            id: Class.id
+        },
+        data: {
+            name: Class.name
+        },
+        select: {
+            id: true,
+            name: true
+        }
+    })
+
+}
+
+const deleteDataClassService = async (classId) => {
+    classId = validate(getClassValidationById, classId)
+    const checkInDataBase = await prisma.class.count({
+        where: {
+            id: classId
+        }
+    })
+    if (checkInDataBase !== 1) {
+        throw  new ResponseError(404, `class with id ${classId} not found`, true)
+    }
+    return prisma.class.delete({
+        where: {
+            id: classId
+        }
+    })
+}
+
+module.exports = { createDataClassService, getDataClassServiceById,getAllDataClassService,updateDataClassService,deleteDataClassService}
