@@ -11,8 +11,8 @@ datasource db {
 }
 
 model Class {
-  id        String     @id @default(uuid())
-  name      String     @db.Char(5)
+  id        String     @id @unique @default(uuid())
+  name      String     @unique @db.Char(5)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   Material  Material[]
@@ -21,8 +21,8 @@ model Class {
 }
 
 model Material {
-  id        String     @id @default(uuid())
-  name      String     @db.VarChar(70)
+  id        String     @id @unique @default(uuid())
+  name      String     @unique @db.VarChar(70)
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   classId   String
@@ -33,7 +33,7 @@ model Material {
 }
 
 model Question {
-  id         String   @id @default(uuid())
+  id         String   @id @unique @default(uuid())
   questions  String   @db.LongText
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
@@ -45,8 +45,7 @@ model Question {
 }
 
 model Answer {
-  id             String   @id @default(uuid())
-  answer         String   @unique @db.Char(36)
+  id             String   @id @unique @default(uuid())
   questionAnswer String   @db.Char(2)
   active         Boolean  @default(false)
   createdAt      DateTime @default(now())
