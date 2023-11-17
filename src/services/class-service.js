@@ -3,9 +3,22 @@ const {createClassValidation,getClassValidationById,getAllDataClassValidation,up
 const prisma = require("../application/database")
 const {ResponseError} = require("../error/response-errror");
 const logger = require("../application/logging")
+
+
 const createDataClassService = async (request) => {
     //validate
     const Class = validate(createClassValidation, request)
+
+
+    const checkExitingName = await prisma.class.count({
+        where: {
+            name: Class.name
+        }
+    });
+
+    if (checkExitingName === 1) {
+        throw new ResponseError(400, "Username already exists", true);
+    }
    console.log(Class)
     //create data class
     return prisma.class.create({
@@ -49,23 +62,30 @@ const getDataClassServiceById = async (classId) => {
     }
     return Class
 }
-const updateDataClassService = async (request) => {
+const updateDataClassService = async (body) => {
     //validate
-    const Class = validate(updateClassValidation, request)
+    const {name} = body
+
     const checkInDataBase = await prisma.class.count({
         where: {
-            id:Class.id
+            id:body.id
         }
     })
     if (checkInDataBase !== 1 ) {
-        throw  new ResponseError(404, `class with id ${Class.id} not found`, true)
+        throw  new ResponseError(404, `class with id ${body.id} not found`, true)
+    }
+    // if (checkInDataBase === 1) {
+    //     throw new ResponseError(400, "class already used", true)
+    // }
+    if (!(name)) {
+        throw new ResponseError(400, 'field is required', true);
     }
   return prisma.class.update({
         where: {
-            id: Class.id
+            id: body.id
         },
         data: {
-            name: Class.name
+            name: body.name
         },
         select: {
             id: true,
@@ -80,10 +100,14 @@ const deleteDataClassService = async (classId) => {
     const checkInDataBase = await prisma.class.count({
         where: {
             id: classId
+        },
+        select: {
+            id: true,
+            name: true
         }
     })
     if (checkInDataBase !== 1) {
-        throw  new ResponseError(404, `class with id ${classId} not found`, true)
+        throw  new ResponseError(404, `material with id ${classId} not found`, true)
     }
     return prisma.class.delete({
         where: {
