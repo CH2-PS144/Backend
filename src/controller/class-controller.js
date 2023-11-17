@@ -42,17 +42,15 @@ const getDataClassByIdController = async (req, res) => {
     try {
         const {id} = req.params
     const result = await classService.getDataClassServiceById(id)
-        // console.log(result)
     return res.status(200).json({
         code: 200,
         status: "success",
-        message: `data with id ${id} found`,
+        message: `data material with id ${id} found`,
         data:result,
 
     })
 
     }catch (error) {
-        console.log(error)
         return res.status(error.statusCode || 400).json({
             status: 'failed',
             message: error.message,
@@ -94,7 +92,8 @@ const deleteDataClassController = async (req, res) => {
         return res.status(200).json({
             code: 200,
             status: "success",
-            message:`data class with id ${id} deleted`
+            message:`data class with id ${id} deleted`,
+            data: result
 
         })
     }catch (error) {
