@@ -104,4 +104,23 @@ const deleteDataClassController = async (req, res) => {
         });
     }
 }
-module.exports = {createDataClassController,getDataClassByIdController,getAllDataClassController,updateDataClassController,deleteDataClassController}
+const deleteAllDataClassController = async (req, res) => {
+    try {
+        const result = await classService.deleteAllDataClassService()
+        console.log("Hasil query delete ==>", result)
+        return res.status(200).json({
+            code: 200,
+            status:"success delete all Data class",
+            message: result
+        })
+    }catch (error){
+        console.log(error)
+        return res.status(error.statusCode || 400).json({
+            code: 400,
+            status: "failed",
+            message: error.message,
+            question:[]
+        })
+    }
+}
+module.exports = {createDataClassController,getDataClassByIdController,getAllDataClassController,updateDataClassController,deleteDataClassController,deleteAllDataClassController}

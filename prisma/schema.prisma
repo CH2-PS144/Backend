@@ -23,6 +23,7 @@ model Class {
 model Material {
   id        String     @id @unique @default(uuid())
   name      String     @unique @db.VarChar(70)
+  content   String     @db.MediumText
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
   classId   String
@@ -34,7 +35,7 @@ model Material {
 
 model Question {
   id         String   @id @unique @default(uuid())
-  questions  String   @db.LongText
+  questions  String   @db.Text
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
   materialId String
@@ -51,7 +52,7 @@ model Answer {
   createdAt      DateTime @default(now())
   updatedAt      DateTime @updatedAt
   questionId     String
-  qestion        Question @relation(fields: [questionId], references: [id])
+  question       Question @relation(fields: [questionId], references: [id])
 
   @@map("answer")
 }

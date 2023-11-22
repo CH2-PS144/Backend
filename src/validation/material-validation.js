@@ -10,5 +10,9 @@ const updateMaterialsValidation = Joi.object({
     id:Joi.string().max(100).required(),
     name:Joi.string().max(5).required()
 })
+const deleteAllDataMaterialValidation = Joi.object({
+    id:Joi.string().max(100).required(),
+    name:Joi.string().max(5).required()
+})
 
-module.exports = {createMaterialValidation,getDataByIdMaterialsValidation,updateMaterialsValidation}
+module.exports = {createMaterialValidation,getDataByIdMaterialsValidation,updateMaterialsValidation,deleteAllDataMaterialValidation}
