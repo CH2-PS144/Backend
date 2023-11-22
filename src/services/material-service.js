@@ -1,16 +1,17 @@
 const validate = require("../validation/validation")
-const {getDataByIdMaterialsValidation} = require("../validation/material-validation")
+const {getDataByIdMaterialsValidation,deleteAllDataMaterialValidation} = require("../validation/material-validation")
 const prisma = require("../application/database")
 const {ResponseError} = require("../error/response-errror");
-const logger = require("../application/logging")
-const {request} = require("express");
-const {getClassValidationById} = require("../validation/class-validation");
+const {deleteAllDataAnswerValidation} = require("../validation/answer-validation");
+// const logger = require("../application/logging")
+// const {request} = require("express");
+// const {getClassValidationById} = require("../validation/class-validation");
 
 
 const createDataMaterialService = async (body) => {
-    const {name, classId} = body
-
-    if (!(name && classId)) {
+    const {name,content,classId} = body
+  
+    if (!(name && classId && content)) {
         throw new ResponseError(400, 'field is required', true);
     }
 
@@ -20,11 +21,12 @@ const createDataMaterialService = async (body) => {
         }
     })
     if (checkExistingName === 1) {
-    throw new ResponseError(400, "Name already used", true)
+    throw new ResponseError(400, "material already used", true)
     }
     const createMaterials = await prisma.material.create({
         data: {
             name: body.name,
+            content: body.content,
             class: {
                 connect: {
                     id:body.classId
@@ -32,27 +34,30 @@ const createDataMaterialService = async (body) => {
             },
         },
         select: {
-            id: true,
-            name: true,
             class: {
                 select: {
                     id: true,
                     name: true,
                 },
             },
+            id: true,
+            name: true,
+            content: true,
+
         },
     });
+    console.log(body.content)
     if (!createMaterials) {
         throw new ResponseError(400, '');
     }
     return createMaterials;
-
 }
 const getAllDataMaterialsService = async  () => {
-   const getMaterials = await prisma.material.findMany({
+   return prisma.material.findMany({
        select: {
            id: true,
            name: true,
+           content: true,
            class: {
                select: {
                    id: true,
@@ -61,7 +66,6 @@ const getAllDataMaterialsService = async  () => {
            },
        },
    })
-    return getMaterials;
 }
 const getDataByIdMaterialsService = async (materialsId) => {
     materialsId = validate(getDataByIdMaterialsValidation,materialsId)
@@ -72,6 +76,7 @@ const getDataByIdMaterialsService = async (materialsId) => {
         select: {
             id:true,
             name: true,
+            content: true,
             class: {
                 select: {
                     id:true,
@@ -103,7 +108,7 @@ const updateDataMaterialsService = async (body) => {
     // if (checkInDataBase === 1) {
     //     throw new ResponseError(404, "materials already used", true)
     // }
-    const createData = await prisma.material.update({
+   return prisma.material.update({
         where: {
             id: body.id
         },
@@ -113,6 +118,7 @@ const updateDataMaterialsService = async (body) => {
         select: {
             id: true,
             name: true,
+            content: true,
             class: {
                 select: {
                     id: true,
@@ -121,8 +127,6 @@ const updateDataMaterialsService = async (body) => {
             }
         }
     })
-    console.log(createData)
-    return createData
 }
 const deleteDataMaterialService = async (materialId) => {
     materialId = validate(getDataByIdMaterialsValidation, materialId)
@@ -140,8 +144,16 @@ const deleteDataMaterialService = async (materialId) => {
         },
         select: {
             id: true,
-            name: true
+            name: true,
+            content: true
         }
     })
 }
-module.exports = {createDataMaterialService,getAllDataMaterialsService,getDataByIdMaterialsService,updateDataMaterialsService,deleteDataMaterialService}
+const DeleteAllDataMaterialService = async (request) => {
+    const Delete = validate(deleteAllDataAnswerValidation, request)
+    return prisma.material.deleteMany({
+        data: Delete
+    })
+}
+
+module.exports = {createDataMaterialService,getAllDataMaterialsService,getDataByIdMaterialsService,updateDataMaterialsService,deleteDataMaterialService,DeleteAllDataMaterialService}

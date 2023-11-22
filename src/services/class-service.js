@@ -1,8 +1,9 @@
 const validate = require("../validation/validation")
-const {createClassValidation,getClassValidationById,getAllDataClassValidation,updateClassValidation} = require("../validation/class-validation")
+const {createClassValidation,getClassValidationById,getAllDataClassValidation,deleteAllDataClassValidation} = require("../validation/class-validation")
 const prisma = require("../application/database")
 const {ResponseError} = require("../error/response-errror");
 const logger = require("../application/logging")
+const {deleteAllDataAnswerValidation} = require("../validation/answer-validation");
 
 
 const createDataClassService = async (request) => {
@@ -17,8 +18,9 @@ const createDataClassService = async (request) => {
     });
 
     if (checkExitingName === 1) {
-        throw new ResponseError(400, "Username already exists", true);
+        throw new ResponseError(400, "class already exists", true);
     }
+    
    console.log(Class)
     //create data class
     return prisma.class.create({
@@ -100,20 +102,25 @@ const deleteDataClassService = async (classId) => {
     const checkInDataBase = await prisma.class.count({
         where: {
             id: classId
+        }
+    })
+    if (checkInDataBase !== 1) {
+        throw  new ResponseError(404, `class with id ${classId} not found`, true)
+    }
+    return prisma.class.delete({
+        where: {
+            id: classId
         },
         select: {
             id: true,
             name: true
         }
     })
-    if (checkInDataBase !== 1) {
-        throw  new ResponseError(404, `material with id ${classId} not found`, true)
-    }
-    return prisma.class.delete({
-        where: {
-            id: classId
-        }
+}
+const deleteAllDataClassService = async (request) => {
+    const Delete = validate(deleteAllDataClassValidation, request)
+    return prisma.class.deleteMany({
+        data: Delete
     })
 }
-
-module.exports = { createDataClassService, getDataClassServiceById,getAllDataClassService,updateDataClassService,deleteDataClassService}
+module.exports = { createDataClassService, getDataClassServiceById,getAllDataClassService,updateDataClassService,deleteDataClassService,deleteAllDataClassService}
