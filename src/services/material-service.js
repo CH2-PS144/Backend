@@ -3,9 +3,6 @@ const {getDataByIdMaterialsValidation,deleteAllDataMaterialValidation} = require
 const prisma = require("../application/database")
 const {ResponseError} = require("../error/response-errror");
 const {deleteAllDataAnswerValidation} = require("../validation/answer-validation");
-// const logger = require("../application/logging")
-// const {request} = require("express");
-// const {getClassValidationById} = require("../validation/class-validation");
 
 
 const createDataMaterialService = async (body) => {
@@ -91,9 +88,9 @@ const getDataByIdMaterialsService = async (materialsId) => {
     return getData
 }
 const updateDataMaterialsService = async (body) => {
-    const {name} = body
+    const {name, content} = body
 
-    if (!(name)) {
+    if (!(name && content)) {
         throw new ResponseError(400, 'field is required', true);
     }
 
@@ -103,17 +100,16 @@ const updateDataMaterialsService = async (body) => {
         }
     })
     if (checkInDataBase !== 1) {
-        throw new ResponseError(404, `class with id ${body.id} not found`, true)
+        throw new ResponseError(404, `material with id ${body.id} not found`, true)
     }
-    // if (checkInDataBase === 1) {
-    //     throw new ResponseError(404, "materials already used", true)
-    // }
+
    return prisma.material.update({
         where: {
             id: body.id
         },
         data: {
-            name: body.name
+            name: body.name,
+            content : body.content
         },
         select: {
             id: true,

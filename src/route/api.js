@@ -1,11 +1,22 @@
 const express = require("express")
+const router = new express.Router();
+
+const {reqLogger} = require('../middleware');
+const {reqValidation} = require('../middleware');
+
+const prisma = require("../application/database")
 const classController = require("../controller/class-controller")
 const materialController = require("../controller/material-controller")
-const questionController = require("../controller/question-controller")
-const answerController = require("../controller/answer-controller")
+const quizController = require("../controller/quiz-controller")
+const checkQuizController = require("../controller/checkQuiz-controller")
 
-const router = new express.Router();
-//Class API
+
+
+
+//middleware
+router.use(reqLogger);
+router.use(reqValidation);
+//Class requestValidation
 router.post("/api/class", classController.createDataClassController)
 router.get("/api/class/:id",classController.getDataClassByIdController)
 router.get("/api/class",classController.getAllDataClassController)
@@ -21,20 +32,38 @@ router.patch("/api/materials/:id", materialController.updateDataMaterialsControl
 router.delete("/api/materials/:id", materialController.deleteDataMaterialController)
 router.delete("/api/materials", materialController.deleteAllDataMaterialController)
 
-//Question API
-router.post("/api/questions", questionController.createQuestionController)
-router.get("/api/questions", questionController.getAllDtaQuestionController)
-router.get("/api/questions/:id", questionController.getDataQuestionByIdController)
-router.patch("/api/questions/:id", questionController.updateDataQuestionController)
-router.delete("/api/questions/:id", questionController.deleteDataQuestionController)
-router.delete("/api/questions", questionController.deleteAllDataAnswerController)
 
-//Answer API
-router.post("/api/answers", answerController.createDataAnswerController)
-router.get("/api/answers", answerController.getAllDataAnswerController)
-router.get("/api/answers/:id", answerController.getDaswerByIdController)
-router.patch("/api/answers/:id", answerController.updateDataAnswerController)
-router.delete("/api/answers/:id", answerController.deleteDataAnswerController)
-router.delete("/api/answers", answerController.deleteAllDataAnswerController)
+//quiz API
+router.post("/api/quiz", quizController.createController)
+router.get("/api/quiz", quizController.getAllController)
+router.get("/api/quiz/:id", quizController.getById)
+router.patch("/api/quiz/:id", quizController.updateDataController)
+router.delete("/api/quiz/:id", quizController.deleteDataController)
+router.delete("/api/quiz", quizController.deleteAllDataController)
+
+//check Quiz API
+router.get("/api/questions", checkQuizController.getDataQuizController)
+router.post("/api/questions/submit-answer", checkQuizController.submitAnswerController)
+
+
+router.get('/api/status', async (req, res) => {
+    try {
+        await prisma.$connect();
+
+        return res.status(200).json({
+            status: 'OK',
+            message: 'server is up and ready to go! 🚀',
+        });
+    } catch (error) {
+        return res.status(500).json({
+            status: 'NOT OK',
+            message: 'something went wrong with the server',
+            error,
+        });
+    } finally {
+        await prisma.$disconnect();
+    }
+});
+
 
 module.exports = router;
