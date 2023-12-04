@@ -1,8 +1,15 @@
-const { app } = require("./application/app.js");
-const logger = require("./application/logging.js");
+const { app } = require("./application/app");
+const logger = require("./application/logging");
+const dotenv = require('dotenv');
 
-const PORT = 8080;
+dotenv.config();
 
-app.listen(PORT, () => {
-  logger.info(`Application server on ${PORT} running...`);
+const config = {
+  app: {
+    port: parseInt(process.env.LOCAL_APP_PORT),
+  },
+}
+
+app.listen(config.app.port, () => {
+  logger.info(`Application server on ${config.app.port} running...`);
 });

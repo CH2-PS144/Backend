@@ -7,7 +7,8 @@ const DataByIdQuestionValidation =  Joi.string().max(100).required();
 
 const deleteAllDataQuestionValidation = Joi.object({
     id:Joi.string().max(100).required(),
-    questions: Joi.string().max(1000).required()
+    questions: Joi.string().max(1000).required(),
+    answer: Joi.string()
 
 })
 module.exports = {DataByIdQuestionValidation,deleteAllDataQuestionValidation}

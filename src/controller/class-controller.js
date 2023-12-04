@@ -107,7 +107,7 @@ const deleteDataClassController = async (req, res) => {
 const deleteAllDataClassController = async (req, res) => {
     try {
         const result = await classService.deleteAllDataClassService()
-        console.log("Hasil query delete ==>", result)
+        
         return res.status(200).json({
             code: 200,
             status:"success delete all Data class",

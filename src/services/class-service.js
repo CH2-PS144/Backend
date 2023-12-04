@@ -18,10 +18,9 @@ const createDataClassService = async (request) => {
     });
 
     if (checkExitingName === 1) {
-        throw new ResponseError(400, "class already exists", true);
+            throw new ResponseError(400, "class already exists", true);
     }
-    
-   console.log(Class)
+
     //create data class
     return prisma.class.create({
         data: Class,

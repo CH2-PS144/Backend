@@ -1,0 +1,127 @@
+const prisma = require("../application/database")
+const validate = require("../validation/validation");
+const {getClassValidationById} = require("../validation/class-validation");
+const {deleteAllDataQuestionValidation} = require("../validation/question-validation");
+const createService = async (body) => {
+    const convertAnswer = JSON.stringify(body.answer)
+    const mergedObject = { ...body, answer: convertAnswer };
+
+    let variableQuery = await prisma.question.create({
+        data: mergedObject,
+        select: {
+            id: true,
+            questions: true,
+            answer: true
+        }
+    })
+    variableQuery.answer = JSON.parse(variableQuery.answer)
+  return variableQuery
+}
+
+const getAllService = async () => {
+    const questions = await prisma.question.findMany({
+        select: {
+            id: true,
+            questions: true,
+            answer: true,
+            material: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        },
+    })
+    
+    const getData = questions.map((question) => {
+        return {
+            ...question,
+            answer: JSON.parse(question.answer),
+        };
+    });
+
+
+
+    return getData
+};
+
+const getById = async (quizId) => {
+    quizId = validate(getClassValidationById, quizId)
+
+    const classes = await prisma.question.findUnique({
+        where: {
+            id: quizId
+        },
+        select: {
+            id: true,
+            questions: true,
+            answer: true,
+            material: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        },
+    })
+    if (!classes) {
+        return null;
+    }
+    const formattedQuiz = {
+        ...classes,
+        answer: JSON.parse(classes.answer),
+    };
+
+    console.log(formattedQuiz)
+    return formattedQuiz;
+}
+
+const updateDataService = async (body) => {
+    const convertAnswer = JSON.stringify(body.answer)
+    const mergedObject = { ...body, answer: convertAnswer };
+
+    let variableQuery = await prisma.question.update({
+        where: {
+            id: body.id,
+        },
+        data: mergedObject,
+        select: {
+            id: true,
+            questions: true,
+            answer: true,
+        },
+    })
+    if (variableQuery.answer && typeof variableQuery.answer === 'string') {
+        variableQuery.answer = JSON.parse(variableQuery.answer);
+    }
+
+    return variableQuery;
+}
+
+const deleteDataService = async (quizId) => {
+    quizId = validate(getClassValidationById, quizId)
+    const deletedQuestion = await prisma.question.delete({
+        where: {
+            id: quizId,
+        },
+        select: {
+            id: true,
+            questions: true,
+            answer: true,
+        },
+
+    });
+    if (deletedQuestion.answer && typeof deletedQuestion.answer === 'string') {
+        deletedQuestion.answer = JSON.parse(deletedQuestion.answer);
+    }
+    return deletedQuestion;
+}
+
+const deleteAllDataService = async (request) => {
+    const Datas = validate(deleteAllDataQuestionValidation, request)
+    const deleteData = await prisma.question.deleteMany({
+        data: Datas
+    })
+    return deleteData
+}
+module.exports = {createService,getAllService,getById,updateDataService,deleteDataService,deleteAllDataService}
