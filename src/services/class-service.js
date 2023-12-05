@@ -27,7 +27,6 @@ const createDataClassService = async (request) => {
         }
     })
 }
-
 const getAllDataClassService = async (request) => {
     const getClass = validate(getAllDataClassValidation,request)
     return prisma.class.findMany({
