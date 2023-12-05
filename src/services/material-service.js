@@ -30,6 +30,9 @@ const createDataMaterialService = async (body) => {
                 },
             },
         },
+        id: true,
+        name: true,
+        content: true,
         select: {
             class: {
                 select: {
@@ -37,13 +40,8 @@ const createDataMaterialService = async (body) => {
                     name: true,
                 },
             },
-            id: true,
-            name: true,
-            content: true,
-
         },
     });
-    console.log(body.content)
     if (!createMaterials) {
         throw new ResponseError(400, '');
     }

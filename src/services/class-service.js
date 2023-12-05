@@ -5,12 +5,9 @@ const {ResponseError} = require("../error/response-errror");
 const logger = require("../application/logging")
 const {deleteAllDataAnswerValidation} = require("../validation/answer-validation");
 
-
 const createDataClassService = async (request) => {
     //validate
     const Class = validate(createClassValidation, request)
-
-
     const checkExitingName = await prisma.class.count({
         where: {
             name: Class.name
@@ -33,20 +30,17 @@ const createDataClassService = async (request) => {
 
 const getAllDataClassService = async (request) => {
     const getClass = validate(getAllDataClassValidation,request)
-    const Class = await prisma.class.findMany({
+    return prisma.class.findMany({
         data: getClass,
         select : {
             id: true,
             name: true
         }
     });
-    console.log(Class)
-    return Class
 }
 const getDataClassServiceById = async (classId) => {
     //validate
     classId = validate(getClassValidationById, classId)
-
     //get data class
     const Class = await prisma.class.findUnique({
         where: {

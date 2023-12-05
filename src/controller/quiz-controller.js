@@ -4,14 +4,17 @@ const materialService = require("../services/material-service");
 const createController = async (req, res) => {
    try {
        const result = await quizService.createService(req.body)
-       return res.status(200).json({
-           data: result
+       return res.status(201).json({
+           code: 201,
+           status: "success",
+           quiz: result
        })
    }catch (error) {
        return res.status(error.statusCode || 400).json({
            code: 400,
            status: "failed",
-           message: error.message
+           message: error.message,
+           quiz:[]
        })
    }
 }
@@ -19,13 +22,16 @@ const getAllController = async (req, res) => {
    try {
        const result = await quizService.getAllService()
        return res.status(200).json({
-           data: result
+           code: 201,
+           status: "success",
+           quiz: result
        })
    }catch (error) {
         return res.status(error.statusCode || 400).json({
             code: 400,
             status: "failed",
-            message: error.message
+            message: error.message,
+            quiz:[]
         })
    }
 }
@@ -36,14 +42,15 @@ const getById = async (req, res) => {
        return res.status(200).json({
            code: 200,
            status: "success",
-           message: `data materials with id ${id} found`,
-           data: result,
+           message: `data quiz with id ${id} found`,
+           quiz: result,
        })
    }catch (error) {
        return res.status(error.statusCode || 400).json({
            code: 400,
            status: "failed",
-           message: error.message
+           message: error.message,
+           quiz:[]
        })
    }
 }
@@ -54,13 +61,17 @@ const updateDataController = async (req, res) => {
        request.id = id
        const result = await quizService.updateDataService(request)
        return res.status(200).json({
-           data: result
+           code: 200,
+           status: "success",
+           message: `data quiz with id ${id} found`,
+           quiz: result,
        })
    }catch (error) {
        return res.status(error.statusCode || 400).json({
            code: 400,
            status: "failed",
-           message: error.message
+           message: error.message,
+           quiz:[]
        })
    }
 }
@@ -73,13 +84,14 @@ const deleteDataController = async (req,res) => {
        return res.status(200).json({
            code: 200,
            status:"success",
-           message: result
+           quiz: result
        })
    }catch (error) {
        return res.status(error.statusCode || 400).json({
            code: 400,
            status:"failed",
-           message: error.message
+           message: error.message,
+           quiz:[]
        })
    }
 }
@@ -87,14 +99,18 @@ const deleteDataController = async (req,res) => {
 const deleteAllDataController = async (req, res) => {
     try {
         const result = await quizService.deleteAllDataService()
-        console.log("Hasil query delete ==>", result)
         return res.status(200).json({
             code: 200,
             status: "success delete all Data quiz",
-            message: result,
+            quiz: result,
         })
     }catch (error) {
-        console.log(error)
+        return res.status(error.statusCode || 400).json({
+            code: 400,
+            status:"failed",
+            message: error.message,
+            quiz:[]
+        })
     }
 }
 module.exports = {createController,getAllController,getById,updateDataController,deleteDataController,deleteAllDataController}

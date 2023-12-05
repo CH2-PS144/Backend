@@ -7,11 +7,10 @@ const createDataClassController =  async (req, res) => {
             code: 201,
             status: "success",
             message: "new class data added!",
-            data: result
+            class: result
         })
 
     }catch (error) {
-       console.log(error)
         return res.status(error.statusCode || 400).json({
             status: 'failed',
             message: error.message,
@@ -22,12 +21,11 @@ const getAllDataClassController = async (req, res) => {
 
     try {
         const result = await classService.getAllDataClassService();
-
         return res.status(200).json({
             code: 201,
             status: "success",
             message: "success getting all Class data",
-            data: result
+            class: result
         });
 
     }catch (error) {
@@ -46,7 +44,7 @@ const getDataClassByIdController = async (req, res) => {
         code: 200,
         status: "success",
         message: `data material with id ${id} found`,
-        data:result,
+        class:result,
 
     })
 
@@ -54,7 +52,7 @@ const getDataClassByIdController = async (req, res) => {
         return res.status(error.statusCode || 400).json({
             status: 'failed',
             message: error.message,
-            data:[]
+            class:[]
         });
     }
 }
@@ -65,21 +63,18 @@ const updateDataClassController = async (req, res) => {
        request.id = id
        const result = await classService.updateDataClassService(request)
 
-       console.log(result)
-
        return res.status(200).json({
            code: 200,
            status: "success",
            message: `class with id ${id} updated.`,
-           data: result,
+           class: result,
 
        })
    }catch (error) {
-    console.log(error)
        return res.status(error.statusCode || 400).json({
            status: 'failed',
            message: error.message,
-           data:[]
+           class:[]
        });
    }
 }
@@ -88,38 +83,35 @@ const deleteDataClassController = async (req, res) => {
     try {
         const {id} = req.params
         const result = await classService.deleteDataClassService(id)
-        console.log(result)
         return res.status(200).json({
             code: 200,
             status: "success",
             message:`data class with id ${id} deleted`,
-            data: result
+            class: result
 
         })
     }catch (error) {
         return res.status(error.statusCode || 400).json({
             status: 'failed',
             message: error.message,
-            data:[]
+            class:[]
         });
     }
 }
 const deleteAllDataClassController = async (req, res) => {
     try {
         const result = await classService.deleteAllDataClassService()
-        
         return res.status(200).json({
             code: 200,
             status:"success delete all Data class",
-            message: result
+            class: result
         })
     }catch (error){
-        console.log(error)
         return res.status(error.statusCode || 400).json({
             code: 400,
             status: "failed",
             message: error.message,
-            question:[]
+            class:[]
         })
     }
 }

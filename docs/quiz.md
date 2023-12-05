@@ -1,6 +1,6 @@
-## Question Api Specification
+## Question Quiz Specification
 
-# Create Data Material Api
+# Create Data Quiz Api
 Endpoint : POST /api/questions
 
 Headers :

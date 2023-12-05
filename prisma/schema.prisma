@@ -21,19 +21,19 @@ model Class {
 }
 
 model Material {
-  id        String     @id @unique @default(uuid())
-  name      String     @unique @db.VarChar(70)
-  content   String     @db.LongText
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+  id        String   @id @unique @default(uuid())
+  name      String   @unique @db.VarChar(70)
+  content   String   @db.LongText
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   classId   String
-  class     Class      @relation(fields: [classId], references: [id])
-  Question  Question[]
+  class     Class    @relation(fields: [classId], references: [id])
+  quiz      Quiz[]
 
   @@map("material")
 }
 
-model Question {
+model Quiz {
   id         String   @id @unique @default(uuid())
   questions  String   @db.Text
   answer     String   @db.Text
@@ -42,5 +42,5 @@ model Question {
   materialId String
   material   Material @relation(fields: [materialId], references: [id])
 
-  @@map("question")
+  @@map("quiz")
 }

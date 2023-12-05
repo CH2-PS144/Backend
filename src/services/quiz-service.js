@@ -1,12 +1,12 @@
 const prisma = require("../application/database")
 const validate = require("../validation/validation");
 const {getClassValidationById} = require("../validation/class-validation");
-const {deleteAllDataQuestionValidation} = require("../validation/question-validation");
+const {deleteAllDataQuestionValidation} = require("../validation/quiz-validation");
 const createService = async (body) => {
     const convertAnswer = JSON.stringify(body.answer)
     const mergedObject = { ...body, answer: convertAnswer };
 
-    let variableQuery = await prisma.question.create({
+    let variableQuery = await prisma.quiz.create({
         data: mergedObject,
         select: {
             id: true,
@@ -19,7 +19,7 @@ const createService = async (body) => {
 }
 
 const getAllService = async () => {
-    const questions = await prisma.question.findMany({
+    const questions = await prisma.quiz.findMany({
         select: {
             id: true,
             questions: true,
@@ -32,23 +32,18 @@ const getAllService = async () => {
             }
         },
     })
-    
     const getData = questions.map((question) => {
         return {
             ...question,
             answer: JSON.parse(question.answer),
         };
     });
-
-
-
     return getData
 };
 
 const getById = async (quizId) => {
     quizId = validate(getClassValidationById, quizId)
-
-    const classes = await prisma.question.findUnique({
+    const classes = await prisma.quiz.findUnique({
         where: {
             id: quizId
         },
@@ -72,7 +67,6 @@ const getById = async (quizId) => {
         answer: JSON.parse(classes.answer),
     };
 
-    console.log(formattedQuiz)
     return formattedQuiz;
 }
 
@@ -80,7 +74,7 @@ const updateDataService = async (body) => {
     const convertAnswer = JSON.stringify(body.answer)
     const mergedObject = { ...body, answer: convertAnswer };
 
-    let variableQuery = await prisma.question.update({
+    let variableQuery = await prisma.quiz.update({
         where: {
             id: body.id,
         },
@@ -100,7 +94,7 @@ const updateDataService = async (body) => {
 
 const deleteDataService = async (quizId) => {
     quizId = validate(getClassValidationById, quizId)
-    const deletedQuestion = await prisma.question.delete({
+    const deletedQuestion = await prisma.quiz.delete({
         where: {
             id: quizId,
         },
@@ -119,7 +113,7 @@ const deleteDataService = async (quizId) => {
 
 const deleteAllDataService = async (request) => {
     const Datas = validate(deleteAllDataQuestionValidation, request)
-    const deleteData = await prisma.question.deleteMany({
+    const deleteData = await prisma.quiz.deleteMany({
         data: Datas
     })
     return deleteData

@@ -2,7 +2,7 @@ const prisma = require("../application/database")
 
 const getDataQuizService = async () => {
 
-    const getDataQuiz = await prisma.question.findMany({
+    const getDataQuiz = await prisma.quiz.findMany({
         select: {
             id: true,
             questions: true,
@@ -26,7 +26,7 @@ const getDataQuizService = async () => {
     });
 }
 const submitAnswer = async (body) => {
-    const masterData = await prisma.question.findMany({
+    const masterData = await prisma.quiz.findMany({
         select: {
             id: true,
             questions: true,
@@ -78,7 +78,6 @@ const submitAnswer = async (body) => {
         description: status,
     };
 };
-
 
 
 module.exports = {getDataQuizService,submitAnswer}

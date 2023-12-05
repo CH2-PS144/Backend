@@ -8,7 +8,7 @@ const createDataMaterialController = async (req, res) => {
         return res.status(200).json({
             code: 201,
             status: "success",
-            data: result
+            material: result
         })
     }catch (error) {
         return res.status(error.statusCode || 400).json({
@@ -24,7 +24,7 @@ getAllDataMaterialsController = async (req, res) => {
         return res.status(200).json({
             code: 200,
             status: "success",
-            data: result
+            material: result
         })
     }catch (error) {
         console.log(error)
@@ -32,7 +32,7 @@ getAllDataMaterialsController = async (req, res) => {
             code: 400,
             status:"failed",
             message: error.message,
-            data:[]
+            material:[]
         })
     }
 }
@@ -44,14 +44,14 @@ getDataByIdMaterialsController = async (req, res) => {
             code: 200,
             status: "success",
             message: `data materials with id ${id} found`,
-            data:result,
+            material:result,
 
         })
     }catch (error) {
         return res.status(error.statusCode || 400).json({
             status: 'failed',
             message: error.message,
-            data:[]
+            material:[]
         });
     }
 }
@@ -66,14 +66,14 @@ const updateDataMaterialsController = async (req, res) => {
             code: 200,
             status: "success",
             message: `material with id ${id} updated.`,
-            data: result,
+            material: result,
 
         })
     }catch (error) {
         return res.status(error.statusCode || 400).json({
             status: 'failed',
             message: error.message,
-            data:[]
+            material:[]
         });
     }
 }
@@ -86,14 +86,14 @@ const deleteDataMaterialController = async (req, res) => {
             code: 200,
             status: "success",
             message:`data material with id ${id} deleted`,
-            data: result
+            material: result
 
         })
     }catch (error) {
         return res.status(error.statusCode || 400).json({
             status: 'failed',
             message: error.message,
-            data:[]
+            material:[]
         });
     }
 }
@@ -104,7 +104,7 @@ const deleteAllDataMaterialController = async (req, res) => {
         return res.status(200).json({
             code: 200,
             status:"success delete all Data material",
-            message: result
+            material: result
         })
     }catch (error){
         console.log(error)
@@ -112,7 +112,7 @@ const deleteAllDataMaterialController = async (req, res) => {
             code: 400,
             status: "failed",
             message: error.message,
-            question:[]
+            material:[]
         })
     }
 }

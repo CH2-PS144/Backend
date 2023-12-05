@@ -2,8 +2,8 @@
   "name": "backend",
   "version": "1.0.0",
   "description": "",
-  "main": "nodemon src/server.js",
   "scripts": {
+    "dev": "nodemon src/server.js",
     "test": "jest -i"
   },
   "jest": {

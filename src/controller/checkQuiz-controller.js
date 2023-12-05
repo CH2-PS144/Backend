@@ -4,10 +4,9 @@ const getDataQuizController = async (req, res) => {
   try {
       const result = await checkQuizService.getDataQuizService()
       return res.status(200).json({
-      data: result
+      quiz: result
       })
   }catch (error) {
-      console.log("response", error)
       return res.status(error.statusCode || 400).json({
        code: 400,
        status: "failed",
@@ -19,7 +18,7 @@ const submitAnswerController = async (req, res) => {
     try {
         const result = await checkQuizService.submitAnswer(req.body)
         return res.status(200).json({
-        data: result
+        quiz: result
         })
     } catch (error) {
       return res.status(error.statusCode || 400).json({
