@@ -29,7 +29,6 @@ const getAllDataClassController = async (req, res) => {
         });
 
     }catch (error) {
-        console.log(error)
         return res.status(error.statusCode || 400).json({
             status: 'failed',
             message: error.message,

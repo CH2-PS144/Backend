@@ -75,12 +75,11 @@ const updateDataController = async (req, res) => {
        })
    }
 }
-
 const deleteDataController = async (req,res) => {
    try {
        const {id} = req.params
        const result = await quizService.deleteDataService(id)
-       console.log(result)
+
        return res.status(200).json({
            code: 200,
            status:"success",
@@ -95,7 +94,6 @@ const deleteDataController = async (req,res) => {
        })
    }
 }
-
 const deleteAllDataController = async (req, res) => {
     try {
         const result = await quizService.deleteAllDataService()

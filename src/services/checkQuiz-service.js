@@ -1,7 +1,6 @@
 const prisma = require("../application/database")
 
 const getDataQuizService = async () => {
-
     const getDataQuiz = await prisma.quiz.findMany({
         select: {
             id: true,
@@ -46,7 +45,6 @@ const submitAnswer = async (body) => {
 
     masterData.forEach(master => {
         body.forEach(bodies => {
-
             if (master.id === bodies.id) {
                 const b = JSON.parse(master.answer).map(e => {
 
@@ -60,7 +58,6 @@ const submitAnswer = async (body) => {
 
                 skore += isAnyCorrect ? 20 : 0;
 
-
                 result.push({
                     idAnswer: master.questions,
                     value: isAnyCorrect,
@@ -69,7 +66,6 @@ const submitAnswer = async (body) => {
             }
         });
     });
-
     const status = skore >= 80 ? `Anda lulus dengan materi ${currentMaster.material.name}` : `Anda tidak lulus pada materi ${currentMaster.material.name}`;
 
     return {
@@ -78,7 +74,6 @@ const submitAnswer = async (body) => {
         description: status,
     };
 };
-
 
 module.exports = {getDataQuizService,submitAnswer}
 

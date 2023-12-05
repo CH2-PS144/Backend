@@ -17,7 +17,6 @@ const createService = async (body) => {
     variableQuery.answer = JSON.parse(variableQuery.answer)
   return variableQuery
 }
-
 const getAllService = async () => {
     const questions = await prisma.quiz.findMany({
         select: {
@@ -69,7 +68,6 @@ const getById = async (quizId) => {
 
     return formattedQuiz;
 }
-
 const updateDataService = async (body) => {
     const convertAnswer = JSON.stringify(body.answer)
     const mergedObject = { ...body, answer: convertAnswer };
@@ -91,7 +89,6 @@ const updateDataService = async (body) => {
 
     return variableQuery;
 }
-
 const deleteDataService = async (quizId) => {
     quizId = validate(getClassValidationById, quizId)
     const deletedQuestion = await prisma.quiz.delete({
@@ -110,7 +107,6 @@ const deleteDataService = async (quizId) => {
     }
     return deletedQuestion;
 }
-
 const deleteAllDataService = async (request) => {
     const Datas = validate(deleteAllDataQuestionValidation, request)
     const deleteData = await prisma.quiz.deleteMany({

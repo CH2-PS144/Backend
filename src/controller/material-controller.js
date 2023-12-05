@@ -4,7 +4,6 @@ const classService = require("../services/class-service");
 const createDataMaterialController = async (req, res) => {
     try {
     const result = await materialService.createDataMaterialService(req.body)
-        console.log(req.body.content)
         return res.status(200).json({
             code: 201,
             status: "success",
@@ -27,7 +26,6 @@ getAllDataMaterialsController = async (req, res) => {
             material: result
         })
     }catch (error) {
-        console.log(error)
         return res.status(error.statusCode || 400).json({
             code: 400,
             status:"failed",
@@ -61,7 +59,6 @@ const updateDataMaterialsController = async (req, res) => {
         const request = req.body
         request.id = id
         const result = await materialService.updateDataMaterialsService(request)
-
         return res.status(200).json({
             code: 200,
             status: "success",
@@ -81,7 +78,6 @@ const deleteDataMaterialController = async (req, res) => {
     try {
         const {id} = req.params
         const result = await materialService.deleteDataMaterialService(id)
-        console.log(result)
         return res.status(200).json({
             code: 200,
             status: "success",
@@ -100,14 +96,12 @@ const deleteDataMaterialController = async (req, res) => {
 const deleteAllDataMaterialController = async (req, res) => {
     try {
         const result = await materialService.DeleteAllDataMaterialService()
-        console.log("Hasil query delete ==>", result)
         return res.status(200).json({
             code: 200,
             status:"success delete all Data material",
             material: result
         })
     }catch (error){
-        console.log(error)
         return res.status(error.statusCode || 400).json({
             code: 400,
             status: "failed",
