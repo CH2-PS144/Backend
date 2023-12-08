@@ -31,7 +31,6 @@ router.patch("/api/materials/:id", materialController.updateDataMaterialsControl
 router.delete("/api/materials/:id", materialController.deleteDataMaterialController)
 router.delete("/api/materials", materialController.deleteAllDataMaterialController)
 
-
 //quiz API
 router.post("/api/quiz", quizController.createController)
 router.get("/api/quiz", quizController.getAllController)
@@ -42,6 +41,7 @@ router.delete("/api/quiz", quizController.deleteAllDataController)
 
 //check Quiz API
 router.get("/api/questions", checkQuizController.getDataQuizController)
+router.get("/api/questions/:id", checkQuizController.getDataByIdQuizController)
 router.post("/api/questions/submit-answer", checkQuizController.submitAnswerController)
 
 
