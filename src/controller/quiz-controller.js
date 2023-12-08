@@ -1,5 +1,4 @@
 const quizService = require("../services/quiz-service");
-const materialService = require("../services/material-service");
 
 const createController = async (req, res) => {
    try {

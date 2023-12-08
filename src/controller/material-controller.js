@@ -1,5 +1,4 @@
 const materialService = require("../services/material-service")
-const classService = require("../services/class-service");
 
 const createDataMaterialController = async (req, res) => {
     try {

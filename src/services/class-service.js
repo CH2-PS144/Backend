@@ -2,8 +2,6 @@ const validate = require("../validation/validation")
 const {createClassValidation,getClassValidationById,getAllDataClassValidation,deleteAllDataClassValidation} = require("../validation/class-validation")
 const prisma = require("../application/database")
 const {ResponseError} = require("../error/response-errror");
-const logger = require("../application/logging")
-const {deleteAllDataAnswerValidation} = require("../validation/answer-validation");
 
 const createDataClassService = async (request) => {
     //validate

@@ -1,5 +1,4 @@
 const classService = require("../services/class-service")
-const logging =require("../application/logging")
 const createDataClassController =  async (req, res) => {
     try {
         const result = await classService.createDataClassService(req.body)
