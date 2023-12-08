@@ -5,10 +5,13 @@ const {ResponseError} = require("../error/response-errror");
 const {deleteAllDataAnswerValidation} = require("../validation/answer-validation");
 
 const createDataMaterialService = async (body) => {
-    const { name, content, classId } = body;
 
-    if (!(name && classId && content)) {
-        throw new ResponseError(400, 'field is required', true);
+    const { name, content, classId } = body;
+    let key;
+    for (key in body) {
+        if (!body[key]) {
+            throw new ResponseError(400, `${key} must be provided`,true)
+        }
     }
 
     const checkExistingName = await prisma.material.count({
