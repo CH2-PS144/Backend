@@ -7,6 +7,7 @@ const {deleteAllDataAnswerValidation} = require("../validation/answer-validation
 const createDataMaterialService = async (body) => {
 
     const { name, content, classId } = body;
+
     let key;
     for (key in body) {
         if (!body[key]) {
@@ -24,8 +25,7 @@ const createDataMaterialService = async (body) => {
         throw new ResponseError(400, 'material already used', true);
     }
 
-    try {
-        const createMaterials = await prisma.material.create({
+    const createMaterials = await prisma.material.create({
             data: {
                 name: body.name,
                 content: body.content,
@@ -48,11 +48,7 @@ const createDataMaterialService = async (body) => {
             },
         });
 
-        console.log('responses', createMaterials);
-        return createMaterials;
-    } catch (error) {
-        throw new ResponseError(400, 'Failed to create material', true);
-    }
+    return createMaterials;
 };
 
 const getAllDataMaterialsService = async  () => {
@@ -96,8 +92,12 @@ const getDataByIdMaterialsService = async (materialsId) => {
 const updateDataMaterialsService = async (body) => {
     const {name, content} = body
 
-    if (!(name && content)) {
-        throw new ResponseError(400, 'field is required', true);
+    let key;
+
+    for (key in body) {
+        if (!body[key]) {
+            throw new ResponseError(400, `${key} must be provided`,true)
+        }
     }
 
     const checkInDataBase = await prisma.material.count({

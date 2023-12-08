@@ -70,7 +70,7 @@ const updateDataClassService = async (body) => {
     //     throw new ResponseError(400, "class already used", true)
     // }
     if (!(name)) {
-        throw new ResponseError(400, 'field is required', true);
+        throw new ResponseError(400, 'name must be provided', true);
     }
   return prisma.class.update({
         where: {
