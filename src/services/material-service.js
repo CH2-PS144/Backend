@@ -5,47 +5,53 @@ const {ResponseError} = require("../error/response-errror");
 const {deleteAllDataAnswerValidation} = require("../validation/answer-validation");
 
 const createDataMaterialService = async (body) => {
-    const {name,content,classId} = body
-  
+    const { name, content, classId } = body;
+
     if (!(name && classId && content)) {
         throw new ResponseError(400, 'field is required', true);
     }
 
-    const  checkExistingName = await prisma.material.count({
+    const checkExistingName = await prisma.material.count({
         where: {
-            name: body.name
-        }
-    })
-    if (checkExistingName === 1) {
-    throw new ResponseError(400, "material already used", true)
-    }
-    const createMaterials = await prisma.material.create({
-        data: {
             name: body.name,
-            content: body.content,
-            class: {
-                connect: {
-                    id:body.classId
-                },
-            },
-        },
-        id: true,
-        name: true,
-        content: true,
-        select: {
-            class: {
-                select: {
-                    id: true,
-                    name: true,
-                },
-            },
         },
     });
-    if (!createMaterials) {
-        throw new ResponseError(400, '');
+
+    if (checkExistingName === 1) {
+        throw new ResponseError(400, 'material already used', true);
     }
-    return createMaterials;
-}
+
+    try {
+        const createMaterials = await prisma.material.create({
+            data: {
+                name: body.name,
+                content: body.content,
+                class: {
+                    connect: {
+                        id: body.classId,
+                    },
+                },
+            },
+            select: {
+                id: true,
+                name: true,
+                content: true,
+                class: {
+                    select: {
+                        id: true,
+                        name: true,
+                    },
+                },
+            },
+        });
+
+        console.log('responses', createMaterials);
+        return createMaterials;
+    } catch (error) {
+        throw new ResponseError(400, 'Failed to create material', true);
+    }
+};
+
 const getAllDataMaterialsService = async  () => {
    return prisma.material.findMany({
        select: {
