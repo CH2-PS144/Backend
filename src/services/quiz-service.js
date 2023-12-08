@@ -2,6 +2,7 @@ const prisma = require("../application/database")
 const validate = require("../validation/validation");
 const {getClassValidationById} = require("../validation/class-validation");
 const {deleteAllDataQuestionValidation} = require("../validation/quiz-validation");
+const {ResponseError} = require("../error/response-errror");
 const createService = async (body) => {
     const convertAnswer = JSON.stringify(body.answer)
     const mergedObject = { ...body, answer: convertAnswer };
@@ -59,7 +60,7 @@ const getById = async (quizId) => {
         },
     })
     if (!classes) {
-        return null;
+        throw new ResponseError("400", `quiz with id ${quizId} not found`,true)
     }
     const formattedQuiz = {
         ...classes,

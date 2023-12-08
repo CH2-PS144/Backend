@@ -1,4 +1,7 @@
 const prisma = require("../application/database")
+const validate = require("../validation/validation");
+const {getClassValidationById} = require("../validation/class-validation");
+const {ResponseError} = require("../error/response-errror");
 
 const getDataQuizService = async () => {
     const getDataQuiz = await prisma.quiz.findMany({
@@ -24,6 +27,45 @@ const getDataQuizService = async () => {
         };
     });
 }
+const getDataByIdQuiz = async (quizId) => {
+    quizId = validate(getClassValidationById, quizId);
+    const quiz = await prisma.quiz.findUnique({
+        where: {
+            id: quizId
+        },
+        select: {
+            id: true,
+            questions: true,
+            answer: true,
+            material: {
+                select: {
+                    id: true,
+                    name: true
+                }
+            }
+        },
+    });
+
+    if (!quiz) {
+        throw new ResponseError("400", `Quiz with id ${quizId} not found`, true);
+    }
+
+    const formattedAnswers = JSON.parse(quiz.answer).map(answer => {
+        const { isCorrect, ...formattedAnswerWithoutIsCorrect } = answer;
+        return formattedAnswerWithoutIsCorrect;
+    });
+
+    const formattedQuiz = {
+        ...quiz,
+        answer: formattedAnswers,
+    };
+
+    return formattedQuiz;
+};
+
+
+
+
 const submitAnswer = async (body) => {
     const masterData = await prisma.quiz.findMany({
         select: {
@@ -75,6 +117,6 @@ const submitAnswer = async (body) => {
     };
 };
 
-module.exports = {getDataQuizService,submitAnswer}
+module.exports = {getDataQuizService,submitAnswer,getDataByIdQuiz}
 
 

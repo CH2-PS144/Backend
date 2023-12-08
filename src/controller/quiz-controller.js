@@ -22,7 +22,7 @@ const getAllController = async (req, res) => {
    try {
        const result = await quizService.getAllService()
        return res.status(200).json({
-           code: 201,
+           code: 200,
            status: "success",
            quiz: result
        })
