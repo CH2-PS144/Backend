@@ -92,6 +92,16 @@ const updateDataService = async (body) => {
 }
 const deleteDataService = async (quizId) => {
     quizId = validate(getClassValidationById, quizId)
+
+    const checkInDataBase = await prisma.quiz.count({
+        where: {
+            id: quizId
+        }
+    })
+    if (checkInDataBase !== 1) {
+        throw  new ResponseError(404, `material with id ${quizId} not found`, true)
+    }
+
     const deletedQuestion = await prisma.quiz.delete({
         where: {
             id: quizId,
@@ -101,8 +111,8 @@ const deleteDataService = async (quizId) => {
             questions: true,
             answer: true,
         },
-
     });
+
     if (deletedQuestion.answer && typeof deletedQuestion.answer === 'string') {
         deletedQuestion.answer = JSON.parse(deletedQuestion.answer);
     }

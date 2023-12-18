@@ -64,8 +64,6 @@ const getDataByIdQuiz = async (quizId) => {
 };
 
 
-
-
 const submitAnswer = async (body) => {
     const masterData = await prisma.quiz.findMany({
         select: {
@@ -101,7 +99,7 @@ const submitAnswer = async (body) => {
                 skore += isAnyCorrect ? 20 : 0;
 
                 result.push({
-                    idAnswer: master.questions,
+                    idAnswer: master.id,
                     value: isAnyCorrect,
                 });
                 currentMaster = master;

@@ -11,9 +11,11 @@ const quizController = require("../controller/quiz-controller")
 const checkQuizController = require("../controller/checkQuiz-controller")
 
 
+
 //middleware
 router.use(reqLogger);
 router.use(reqValidation);
+
 
 //Class requestValidation
 router.post("/api/class", classController.createDataClassController)

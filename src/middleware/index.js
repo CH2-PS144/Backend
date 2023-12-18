@@ -1,4 +1,5 @@
-const reqLogger = require("./requestLogger-middleware")
-const reqValidation = require("./reqValidation-middleware")
+const reqLogger = require('./requestLogger-middleware');
+const reqValidation = require('./reqValidation-middleware');
+const fileStorageImage = require('./photo-middleware');
 
-module.exports = {reqLogger, reqValidation}
+module.exports = { reqLogger, reqValidation, fileStorageImage };
