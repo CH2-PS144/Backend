@@ -27,6 +27,41 @@ const getDataQuizService = async () => {
         };
     });
 }
+const getDataQuizByMaterialId = async (materialId) => {
+    // Assuming you have a 'materialId' field in your 'quiz' model
+
+    const quizzes = await prisma.quiz.findMany({
+        where: {
+            materialId: materialId,
+        },
+        select: {
+            id: true,
+            questions: true,
+            answer: true,
+            material: {
+                select: {
+                    id: true,
+                    name: true,
+                }
+            }
+        },
+    });
+
+    if (!quizzes || quizzes.length === 0) {
+        // Handle case when no quizzes are found for the given material ID
+        return [];
+    }
+
+    return quizzes.map((quiz) => {
+        const parsedAnswers = JSON.parse(quiz.answer).map(({ isCorrect, ...rest }) => rest);
+
+        return {
+            ...quiz,
+            answer: parsedAnswers,
+        };
+    });
+};
+
 const getDataByIdQuiz = async (quizId) => {
     quizId = validate(getClassValidationById, quizId);
     const quiz = await prisma.quiz.findUnique({
@@ -115,6 +150,6 @@ const submitAnswer = async (body) => {
     };
 };
 
-module.exports = {getDataQuizService,submitAnswer,getDataByIdQuiz}
+module.exports = {getDataQuizService,submitAnswer,getDataByIdQuiz,getDataQuizByMaterialId}
 
 

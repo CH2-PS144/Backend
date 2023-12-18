@@ -33,6 +33,26 @@ const getDataByIdQuizController = async (req, res) => {
        })
    }
 }
+const getQuizByMaterialIdController = async (req, res) => {
+    try {
+        const { materialId } = req.params;
+        const result = await checkQuizService.getDataQuizByMaterialId(materialId);
+
+        return res.status(200).json({
+            code: 200,
+            status: 'success',
+            message: `Quizzes for material with id ${materialId} found`,
+            quizzes: result,
+        });
+    } catch (error) {
+        return res.status(error.statusCode || 400).json({
+            code: 400,
+            status: 'failed',
+            message: error.message,
+            quizzes: [],
+        });
+    }
+};
 const submitAnswerController = async (req, res) => {
     try {
         const result = await checkQuizService.submitAnswer(req.body)
@@ -47,4 +67,4 @@ const submitAnswerController = async (req, res) => {
       })
     }
 };
-module.exports = {getDataQuizController,submitAnswerController,getDataByIdQuizController}
+module.exports = {getDataQuizController,submitAnswerController,getDataByIdQuizController,getQuizByMaterialIdController}

@@ -40,6 +40,7 @@ router.get("/api/quiz/:id", quizController.getById)
 router.patch("/api/quiz/:id", quizController.updateDataController)
 router.delete("/api/quiz/:id", quizController.deleteDataController)
 router.delete("/api/quiz", quizController.deleteAllDataController)
+router.get('/api/quiz/material/:materialId', checkQuizController.getQuizByMaterialIdController);
 
 //check Quiz API
 router.get("/api/questions", checkQuizController.getDataQuizController)
