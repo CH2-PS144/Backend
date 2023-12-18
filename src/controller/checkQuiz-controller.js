@@ -26,12 +26,11 @@ const getDataByIdQuizController = async (req, res) => {
            quiz: result
        })
    }catch (error) {
-       console.log(error)
-       // return res.status(error.statusCode || 400).json({
-       //     code: 400,
-       //     status: "failed",
-       //     message: error.message
-       // })
+       return res.status(error.statusCode || 400).json({
+           code: 400,
+           status: "failed",
+           message: error.message
+       })
    }
 }
 const submitAnswerController = async (req, res) => {

@@ -66,9 +66,7 @@ const updateDataClassService = async (body) => {
     if (checkInDataBase !== 1 ) {
         throw  new ResponseError(404, `class with id ${body.id} not found`, true)
     }
-    // if (checkInDataBase === 1) {
-    //     throw new ResponseError(400, "class already used", true)
-    // }
+
     if (!(name)) {
         throw new ResponseError(400, 'name must be provided', true);
     }

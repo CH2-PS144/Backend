@@ -93,6 +93,7 @@ const deleteDataController = async (req,res) => {
        })
    }
 }
+
 const deleteAllDataController = async (req, res) => {
     try {
         const result = await quizService.deleteAllDataService()

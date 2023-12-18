@@ -88,7 +88,7 @@ const deleteDataMaterialController = async (req, res) => {
         return res.status(error.statusCode || 400).json({
             status: 'failed',
             message: error.message,
-            material:[]
+            material:[] 
         });
     }
 }

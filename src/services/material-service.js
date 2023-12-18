@@ -6,12 +6,9 @@ const {deleteAllDataAnswerValidation} = require("../validation/answer-validation
 
 const createDataMaterialService = async (body) => {
 
-    const { name, content, classId } = body;
-
     let key;
     for (key in body) {
-        if (!body[key]) {
-            throw new ResponseError(400, `${key} must be provided`,true)
+        if (!body[key]) {  throw new ResponseError(400, `${key} must be provided`,true)
         }
     }
 
@@ -19,6 +16,7 @@ const createDataMaterialService = async (body) => {
         where: {
             name: body.name,
         },
+
     });
 
     if (checkExistingName === 1) {
@@ -90,7 +88,6 @@ const getDataByIdMaterialsService = async (materialsId) => {
     return getData
 }
 const updateDataMaterialsService = async (body) => {
-    const {name, content} = body
 
     let key;
 
