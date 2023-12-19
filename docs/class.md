@@ -81,7 +81,7 @@
 [//]: # (```)
 
 ## Get All Data Class API 
-Endpoint : GET /api/class
+Endpoint : GET http://34.87.40.161:5000/api/class
 
 Headers :
 
@@ -95,12 +95,16 @@ Response Body Success :
   "message": "success getting all Class data",
   "class": [
     {
-      "id": "429af5ff-0c02-4639-a709-f27846916a11",
+      "id": "ad9e36e1-ece9-4d1f-9b7c-5d4e9ef5aded",
+      "name": "IX"
+    },
+    {
+      "id": "3ab9d84c-66b5-49dd-9407-5aa78f884f54",
       "name": "VII"
     },
     {
-      "id": "bb150a14-1479-4124-af83-2e7cc04caa39",
-      "name": "XI"
+      "id": "34f932e0-dee6-4afe-b702-f39d29267876",
+      "name": "VIII"
     }
   ]
 }
@@ -114,30 +118,29 @@ Response Body Error :
 }
 ```
 ## Get Data Class By Id API 
-Endpoint : GET /api/class/:id
+Endpoint : GET http://34.87.40.161:5000/api/class/:id
 
 Headers :
 
 - Authorization : token
-- 
 Response Body Success :
 
 ```json
 {
   "code": 200,
   "status": "success",
-  "message": "data material with id 429af5ff-0c02-4639-a709-f27846916a11 found",
+  "message": "data material with id ad9e36e1-ece9-4d1f-9b7c-5d4e9ef5aded found",
   "class": {
-    "id": "429af5ff-0c02-4639-a709-f27846916a11",
-    "name": "VII"
+    "id": "ad9e36e1-ece9-4d1f-9b7c-5d4e9ef5aded",
+    "name": "IX"
   }
 }
 ```
-Response Body Error :
+Response Body Class Not Found :
 ```json
 {
   "status": "failed",
-  "message": "class with id 23123 not found",
+  "message": "class with id ad9e36e1-ece9-4d1f-9b7c-5d4e9ef5adedwe not found",
   "class": []
 }
 ```
