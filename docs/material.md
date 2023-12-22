@@ -55,7 +55,7 @@
 
 [//]: # (```)
 # Get All Data Material Api
-Endpoint : GET http://34.87.40.161:5000/api/materials
+Endpoint : GET http://34.87.40.161/api/materials
 
 Headers :
 
@@ -96,7 +96,7 @@ Response Body Error :
 }
 ```
 # Get Data Material By Id Api
-Endpoint : POST http://34.87.40.161:5000/api/materials/:id
+Endpoint : POST http://34.87.40.161/api/materials/:id
 
 Headers :
 
