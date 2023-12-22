@@ -81,7 +81,7 @@
 [//]: # (```)
 
 ## Get All Data Class API 
-Endpoint : GET http://34.87.40.161:5000/api/class
+Endpoint : GET http://34.87.40.161/api/class
 
 Headers :
 
@@ -118,7 +118,7 @@ Response Body Error :
 }
 ```
 ## Get Data Class By Id API 
-Endpoint : GET http://34.87.40.161:5000/api/class/:id
+Endpoint : GET http://34.87.40.161/api/class/:id
 
 Headers :
 
