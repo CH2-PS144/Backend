@@ -57,7 +57,7 @@
 
 # Get All Data Quiz Api
 
-Endpoint : GET http://34.87.40.161:5000/api/quiz
+Endpoint : GET http://34.87.40.161/api/quiz
 
 
 Headers :
@@ -1520,7 +1520,7 @@ Response Body Error :
 }
 ```
 # Get Data Quiz By Material Id Api
-Endpoint : GET http://34.87.40.161:5000/api/quiz/material/:id
+Endpoint : GET http://34.87.40.161/api/quiz/material/:id
 
 Headers :
 
@@ -1676,7 +1676,7 @@ Response Body Error :
 }
 ```
 # Submit Answer Api
-Endpoint : GET http://34.87.40.161:5000/api/questions/submit-answer
+Endpoint : GET http://34.87.40.161/api/questions/submit-answer
 
 Headers :
 
